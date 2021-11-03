@@ -1,5 +1,5 @@
-# LighGBM Tune
-Simple automatic hyper-parameter optimization for LightGBM using Bayesian optimization 
+# LightGBM Tuner
+Simple automatic hyper-parameter optimization for LightGBM using Bayesian optimization (skopt) 
 
 
 ## Example
@@ -22,9 +22,11 @@ print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
 ```
 
+Check configurations in ```config_tuner``` 
+
+
 
 Automatic tunning
-
 ```python
 import warnings
 import tuner_config
@@ -41,13 +43,12 @@ params_opt = lgbm_tr.tune(X=x_train,
                         
 ```
 
-Create an object of LightGBM with the optimized parameters
+Create and fit an object of LightGBM with the optimized parameters
 ```python
 estmtr_opt = LGBMClassifier(**params_opt)
 estmtr_opt.get_params()
 ```
 
-fit the estimaotor
 ```python
 fit_params = dict(callbacks = [lgb.log_evaluation(period=50)],
               eval_set = [(x_train, y_train),(x_test, y_test)],
@@ -58,7 +59,6 @@ fit_params = dict(callbacks = [lgb.log_evaluation(period=50)],
 
 estmtr_opt.fit(x_train, y_train, **fit_params)
 ```
-
 
 For comparison, create and fit an object of LightGBM with the default parameters
 ```python
